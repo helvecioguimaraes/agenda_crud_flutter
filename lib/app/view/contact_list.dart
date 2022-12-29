@@ -6,42 +6,41 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 class ContactList extends StatelessWidget {
   final _back = ContactListBack();
 
-  CircleAvatar circleAvatar(String url)  {
-    return (Uri.tryParse(url).isAbsolute) ?
-       CircleAvatar(backgroundImage: NetworkImage(url))
+  CircleAvatar circleAvatar(String url) {
+    return (Uri.tryParse(url).isAbsolute)
+        ? CircleAvatar(backgroundImage: NetworkImage(url))
         : CircleAvatar(child: Icon(Icons.person));
   }
 
-  Widget iconEditButton(Function onPressed){
-    return IconButton(icon: Icon(Icons.edit), color: Colors.orange, onPressed: onPressed);
+  Widget iconEditButton(Function onPressed) {
+    return IconButton(
+        icon: Icon(Icons.edit), color: Colors.orange, onPressed: onPressed);
   }
 
-  Widget iconRemoveButton(BuildContext context, Function remove){
+  Widget iconRemoveButton(BuildContext context, Function remove) {
     return IconButton(
-      icon: Icon(Icons.delete), 
-      color: Colors.red, 
-      onPressed: () {
-        showDialog(
-          context: context, 
-          builder:  (context) => AlertDialog(
-            title: Text('Excluir'),
-            content: Text('Confirma a Exclusão?'),
-            actions: [
-              FlatButton(
-                child: Text('Não'), 
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                child: Text('Sim'),
-                onPressed: remove,
-              ),
-            ],
-          )
-        );
-      }
-    );
+        icon: Icon(Icons.delete),
+        color: Colors.red,
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: Text('Excluir'),
+                    content: Text('Confirma a Exclusão?'),
+                    actions: [
+                      TextButton(
+                        child: Text('Não'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Sim'),
+                        onPressed: remove,
+                      ),
+                    ],
+                  ));
+        });
   }
 
   @override
@@ -72,7 +71,7 @@ class ContactList extends StatelessWidget {
                       return ListTile(
                         leading: circleAvatar(contato.urlAvatar),
                         title: Text(contato.nome),
-                        onTap: (){
+                        onTap: () {
                           _back.goToDetails(context, contato);
                         },
                         subtitle: Text(contato.telefone),
@@ -80,11 +79,11 @@ class ContactList extends StatelessWidget {
                           width: 100,
                           child: Row(
                             children: [
-                              iconEditButton((){
+                              iconEditButton(() {
                                 _back.goToForm(context, contato);
                               }),
-                              iconRemoveButton(context, (){
-                                 _back.remove(contato.id, context);
+                              iconRemoveButton(context, () {
+                                _back.remove(contato.id, context);
                               })
                             ],
                           ),
